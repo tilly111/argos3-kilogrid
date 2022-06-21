@@ -1,0 +1,155 @@
+<?xml version="1.0" ?>
+<argos-configuration>
+
+<!-- ************************* -->
+<!-- * General configuration * -->
+<!-- ************************* -->
+<framework>
+<system threads="1" />
+<experiment length="2400"
+    ticks_per_second="32"
+    random_seed="0" />
+</framework>
+
+<!-- *************** -->
+<!-- * Controllers * -->
+<!-- *************** -->
+
+<controllers>
+
+    <kilobot_controller id="kbc">
+
+    <actuators>
+        <differential_steering implementation="default"
+            bias_avg="0.000015"
+            bias_stddev="0.00186"/>
+        <kilobot_communication implementation="default" />
+        <kilobot_led implementation="default" />
+    </actuators>
+
+    <sensors>
+        <kilobot_communication implementation="default" medium="kilocomm" show_rays="false" />
+    </sensors>
+
+    <!-- TODO: adjust name and path -->
+    <params behavior="build/behaviours/agent_template" />
+
+    </kilobot_controller>
+
+</controllers>
+
+<!-- ****************** -->
+<!-- * Loop functions * -->
+<!-- ****************** -->
+<!-- TODO: adjust names and paths -->
+<loop_functions
+
+    library="build/loop_functions/libkilogrid_template"
+    label="kilogrid_loop_functions">
+
+    <variables
+        config_file="ARGoS_simulation/loop_functions/kilogrid_conf_files/sample_17_13.kconf"
+        second_config="ARGoS_simulation/loop_functions/kilogrid_conf_files/sample_17_13.kconf"
+        data_file="data/test.txt"
+        param_1="1"
+    />
+</loop_functions>
+
+
+<!-- *********************** -->
+<!-- * Arena configuration * -->
+<!-- *********************** -->
+<!-- TODO: here you can adjust the number of robots in line 88 -->
+<arena size="1, 2, 1" center="0.5,1,0.5">
+
+    <box id="wall_north" size="1,0.01,0.03" movable="false" >
+      <body position="0.5,2,0" orientation="0,0,0" />
+    </box>
+
+    <box id="wall_south" size="1,0.01,0.03" movable="false">
+        <body position="0.5,0,0" orientation="0,0,0" />
+    </box>
+
+    <box id="wall_east" size="0.01,2,0.03"  movable="false">
+        <body position="1,1,0" orientation="0,0,0" />
+    </box>
+
+    <box id="wall_west" size="0.01,2,0.03"  movable="false">
+        <body position="0,1,0" orientation="0,0,0" />
+    </box>
+
+    <distribute>
+        <position method="uniform" min="0.15,0.15,0" max="0.85,1.85,0" />
+        <orientation method="uniform" min="0,0,0" max="360,0,0" />
+        <entity quantity="50" max_trials="100">
+            <kilobot id="kb" communication_range="0">
+                <controller config="kbc"/>
+                <dynamics2d friction="0.7" />
+            </kilobot>
+        </entity>
+    </distribute>
+
+<floor id="floor"
+    source="loop_functions"
+    pixels_per_meter="1000"
+    />
+
+
+</arena>
+
+<!-- ******************* -->
+<!-- * Physics engines * -->
+<!-- ******************* -->
+<physics_engines>
+    <dynamics2d id="dyn2d" />
+</physics_engines>
+
+<!-- ********* -->
+<!-- * Media * -->
+<!-- ********* -->
+
+<media>
+    <kilobot_communication id="kilocomm" />
+</media>
+
+<!-- ****************** -->
+<!-- * Visualization  * -->
+<!-- **************®**** -->
+
+<visualization>
+
+<qt-opengl>
+
+<camera>
+          <placements>
+            <placement index="0" position="0.5,1.0,3.8" look_at="0.5,1.0,2.84" up="0.0,1.0,0.0" lens_focal_length="50" />
+          </placements>
+        </camera>
+        <camera>
+          <placements>
+            <placement index="4" position="0.543348,-1.64842,1.67276" look_at="0.528236,-0.825479,1.10484" up="-0.0104278,0.56783,0.82308" lens_focal_length="53.75" />
+          </placements>
+        </camera>
+
+        <camera>
+          <placements>
+            <placement index="1" position="0.5,1.5,3" look_at="0.5,1.5,0" up="-0.0325027,-0.651275,0.758145" lens_focal_length="53.75" />
+          </placements>
+        </camera>
+
+        <camera>
+          <placements>
+            <placement index="2" position="0.537036,1.56434,4.22272" look_at="0.537844,1.44246,3.23018" up="0.00657934,-0.992522,0.121889" lens_focal_length="53.75" />
+          </placements>
+        </camera>
+        <camera>
+          <placements>
+            <placement index="3" position="0.54417,0.241556,3.82951" look_at="0.544362,0.424898,2.84646" up="0.00102981,0.983049,0.183342" lens_focal_length="50" />
+          </placements>
+        </camera>
+
+    </qt-opengl>
+
+</visualization>
+
+</argos-configuration>
