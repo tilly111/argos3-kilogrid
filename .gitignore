@@ -37,5 +37,6 @@ build/*
 .metadata/
 .idea/
 ARGoS_simulation/cmake-build-debug/
+ARGoS_simulation/loop_functions/cmake-build-debug/
 # the link is system dependend and needs to be done manual new
 ARGoS_simulation/argos3
